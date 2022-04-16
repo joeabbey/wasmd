@@ -22,6 +22,7 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) { //nolint:staticcheck
 
 	cdc.RegisterConcrete(&StoreCodeProposal{}, "wasm/StoreCodeProposal", nil)
 	cdc.RegisterConcrete(&InstantiateContractProposal{}, "wasm/InstantiateContractProposal", nil)
+	cdc.RegisterConcrete(&ExecuteContractProposal{}, "wasm/ExecuteContractProposal", nil)
 	cdc.RegisterConcrete(&SudoContractProposal{}, "wasm/SudoContractProposal", nil)
 	cdc.RegisterConcrete(&MigrateContractProposal{}, "wasm/MigrateContractProposal", nil)
 	cdc.RegisterConcrete(&UpdateAdminProposal{}, "wasm/UpdateAdminProposal", nil)
@@ -44,6 +45,7 @@ func RegisterInterfaces(registry types.InterfaceRegistry) {
 		(*govtypes.Content)(nil),
 		&StoreCodeProposal{},
 		&InstantiateContractProposal{},
+		&ExecuteContractProposal{},
 		&SudoContractProposal{},
 		&MigrateContractProposal{},
 		&UpdateAdminProposal{},
