@@ -43,6 +43,7 @@ func RegisterInterfaces(registry types.InterfaceRegistry) {
 		(*govtypes.Content)(nil),
 		&StoreCodeProposal{},
 		&InstantiateContractProposal{},
+		&SudoContractProposal{},
 		&MigrateContractProposal{},
 		&UpdateAdminProposal{},
 		&ClearAdminProposal{},
