@@ -22,6 +22,7 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) { //nolint:staticcheck
 
 	cdc.RegisterConcrete(&StoreCodeProposal{}, "wasm/StoreCodeProposal", nil)
 	cdc.RegisterConcrete(&InstantiateContractProposal{}, "wasm/InstantiateContractProposal", nil)
+	cdc.RegisterConcrete(&SudoContractProposal{}, "wasm/SudoContractProposal", nil)
 	cdc.RegisterConcrete(&MigrateContractProposal{}, "wasm/MigrateContractProposal", nil)
 	cdc.RegisterConcrete(&UpdateAdminProposal{}, "wasm/UpdateAdminProposal", nil)
 	cdc.RegisterConcrete(&ClearAdminProposal{}, "wasm/ClearAdminProposal", nil)
