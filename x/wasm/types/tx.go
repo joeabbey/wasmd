@@ -129,6 +129,44 @@ func (msg MsgInstantiateContract) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{senderAddr}
 }
 
+func (msg MsgSudoContract) Route() string {
+	return RouterKey
+}
+
+func (msg MsgSudoContract) Type() string {
+	return "sudo"
+}
+
+func (msg MsgSudoContract) ValidateBasic() error {
+	if _, err := sdk.AccAddressFromBech32(msg.Sender); err != nil {
+		return sdkerrors.Wrap(err, "sender")
+	}
+	if _, err := sdk.AccAddressFromBech32(msg.Contract); err != nil {
+		return sdkerrors.Wrap(err, "contract")
+	}
+
+	if !msg.Funds.IsValid() {
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidCoins, "sentFunds")
+	}
+	if err := msg.Msg.ValidateBasic(); err != nil {
+		return sdkerrors.Wrap(err, "payload msg")
+	}
+	return nil
+}
+
+func (msg MsgSudoContract) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
+
+}
+
+func (msg MsgSudoContract) GetSigners() []sdk.AccAddress {
+	senderAddr, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil { // should never happen as valid basic rejects invalid addresses
+		panic(err.Error())
+	}
+	return []sdk.AccAddress{senderAddr}
+
+}
 func (msg MsgExecuteContract) Route() string {
 	return RouterKey
 }
