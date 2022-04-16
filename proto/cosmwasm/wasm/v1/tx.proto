@@ -15,6 +15,8 @@ service Msg {
   //  Instantiate creates a new smart contract instance for the given code id.
   rpc InstantiateContract(MsgInstantiateContract)
       returns (MsgInstantiateContractResponse);
+  // Sudo submits the given message data to a smart contract
+  rpc SudoContract(MsgSudoContract) returns (MsgSudoContractResponse);
   // Execute submits the given message data to a smart contract
   rpc ExecuteContract(MsgExecuteContract) returns (MsgExecuteContractResponse);
   // Migrate runs a code upgrade/ downgrade for a smart contract
@@ -68,6 +70,27 @@ message MsgInstantiateContractResponse {
   string address = 1;
   // Data contains base64-encoded bytes to returned from the contract
   bytes data = 2;
+}
+
+// MsgSudoContract submits the given message data to a smart contract
+message MsgSudoContract {
+  // Sender is the that actor that signed the messages
+  string sender = 1;
+  // Contract is the address of the smart contract
+  string contract = 2;
+  // Msg json encoded message to be passed to the contract
+  bytes msg = 3 [ (gogoproto.casttype) = "RawContractMessage" ];
+  // Funds coins that are transferred to the contract on execution
+  repeated cosmos.base.v1beta1.Coin funds = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
+  ];
+}
+
+// MsgSudoContractResponse returns execution result data.
+message MsgSudoContractResponse {
+  // Data contains base64-encoded bytes to returned from the contract
+  bytes data = 1;
 }
 
 // MsgExecuteContract submits the given message data to a smart contract
